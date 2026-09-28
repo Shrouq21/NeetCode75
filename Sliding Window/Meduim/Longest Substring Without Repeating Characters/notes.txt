@@ -1,0 +1,34 @@
+why it's better to use int freq[] instead of char freq[]?
+
+char is an integer type internally.
+It can represent small integer values, but when you use it in a character context, C++ interprets that value as a character.
+
+For example:
+
+char x = 0;
+x++;
+
+After x++:
+
+x = 1
+
+char has a small range.
+
+Typically, a signed char can store:
+
+-128 → 127
+
+and an unsigned char:
+
+0 → 255
+
+So if you're counting:
+
+a appears 1 time
+a appears 2 times
+a appears 3 times
+...
+
+char works as long as the count stays within its range.
+
+But int gives you a much larger range, so it's the normal and safer datatype for a frequency counter.
