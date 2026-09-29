@@ -24,11 +24,13 @@ public:
         ListNode*prev=head;
         ListNode*curr=head;
         int i=0,j=size-n;
-        if(j==0) {return head->next;}
-for(int i=0;i<size-n;i++){
-    prev=curr;
-            curr=curr->next; 
-}
+        if(j==0) {head=head->next;return head;}
+
+        while(i<j){
+            prev=curr;
+            curr=curr->next;
+            ++i;
+        }
         prev->next=curr->next;
         return head;
     }
