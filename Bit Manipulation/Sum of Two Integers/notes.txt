@@ -1,0 +1,140 @@
+# Bitwise Addition Without Using `+`
+
+## 1. The main idea
+
+We can add two integers using bitwise operators instead of the `+` operator.
+
+We need three operations:
+
+* `^` (XOR): Calculates the sum without carrying.
+* `&` (AND): Finds where both bits are `1`, which generates carries.
+* `<< 1` (Left Shift): Moves each carry one bit position to the left.
+
+## 2. Example: 5 + 3
+
+Convert both numbers to binary:
+
+```text
+5 = 0101
+3 = 0011
+```
+
+**Round 1: Calculate the result and carry.**
+
+XOR — sum without carries:
+
+```text
+  0101
+^ 0011
+------
+  0110
+```
+
+AND — find the carry positions:
+
+```text
+  0101
+& 0011
+------
+  0001
+```
+
+Shift the carry left by one position:
+
+```text
+0001 << 1 = 0010
+```
+
+Now:
+
+* Result = `0110`
+* Carry = `0010`
+
+**Round 2: Repeat the operations.**
+
+XOR:
+
+```text
+0110 ^ 0010 = 0100
+```
+
+AND and shift:
+
+```text
+0110 & 0010 = 0010
+0010 << 1   = 0100
+```
+
+Now:
+
+* Result = `0100`
+* Carry = `0100`
+
+**Round 3: Repeat again.**
+
+```text
+0100 ^ 0100 = 0000
+(0100 & 0100) << 1 = 1000
+```
+
+Now:
+
+* Result = `0000`
+* Carry = `1000`
+
+**Round 4: Repeat again.**
+
+```text
+0000 ^ 1000 = 1000
+(0000 & 1000) << 1 = 0000
+```
+
+The carry is now zero, so we stop.
+
+Final result: `1000` in binary = **8** in decimal.
+
+## 3. Why do we shift left by only one position?
+
+A carry always moves to the immediately next bit position, so we use `<< 1`.
+
+We repeat the entire process because a new round can generate another carry.
+
+**Remember:** One shift per round, not one shift for the entire addition.
+
+## 4. C++ implementation
+
+```cpp
+int add(int a, int b) {
+    while (b != 0) {
+        int carry = (a & b) << 1;
+        a = a ^ b;
+        b = carry;
+    }
+
+    return a;
+}
+```
+
+### How the loop works
+
+1. Calculate the carry using `(a & b) << 1`.
+2. Calculate the sum without carries using `a ^ b`.
+3. Set `b` to the carry.
+4. Repeat until `b == 0`.
+5. Return `a`, which now contains the final sum.
+
+## 5. Complexity
+
+* **Time:** \(O(W)\) in the usual fixed-width integer model, where \(W\) is the number of bits; each round propagates carries.
+* **Space:** \(O(1)\).
+
+*Note:* This implementation assumes the usual integer constraints; signed overflow in C++ must be handled carefully.
+
+## Quick revision
+
+| Operator         | Purpose                         |
+| ---------------- | ------------------------------- |
+| `a ^ b`          | Sum without carries             |
+| `a & b`          | Find carry-generating positions |
+| `(a & b) << 1`   | Move carries to the next bit    |
+| `while (b != 0)` | Repeat until no carries remain  |
