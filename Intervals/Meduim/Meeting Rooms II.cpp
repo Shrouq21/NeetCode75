@@ -15,6 +15,7 @@ const int OO = INT_MIN;
 //         this->end = end;
 //     }
 // };
+ 
 
 class Solution {
 public:
@@ -40,7 +41,7 @@ public:
             }
             else {
                 queue.pop();
-                queue.push(max(minEnding, intervals[i].end));
+                queue.push(intervals[i].end);
             }
             }
            
@@ -48,9 +49,6 @@ public:
         return m;
     }
 };
-
-
-
 
 
 
