@@ -28,14 +28,11 @@ public:
     //        }
     //    }
     //}
-
-    void swapNodes(TreeNode* root) {
+  void swapValues(TreeNode* root) {
         if (!root)return;
-        if (root->left or root->right) {
             swap(root->left, root->right);
-        }
-        swapNodes(root->left);
-        swapNodes(root->right);
+        swapValues(root->left);
+        swapValues(root->right);
     }
 
     TreeNode* invertTree(TreeNode* root) {
