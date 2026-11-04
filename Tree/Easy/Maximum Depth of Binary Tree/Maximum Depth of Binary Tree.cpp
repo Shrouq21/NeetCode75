@@ -36,7 +36,7 @@ public:
 
     int BinaryTree( TreeNode* root) {
         if (!root)return 0;
-        return max(BinaryTree(root->right)+1, BinaryTree(root->left)+1);
+        return max(BinaryTree(root->right), BinaryTree(root->left))+1;
     
            
        
